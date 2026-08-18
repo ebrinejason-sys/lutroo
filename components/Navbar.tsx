@@ -116,14 +116,16 @@ export default function Navbar() {
       </header>
 
       {/* Rendered outside <header> on purpose: the header's backdrop-blur makes
-          it a containing block, which would collapse this fixed drawer. */}
+          it a containing block, which would collapse this fixed drawer. It
+          covers the whole viewport and sits under the header, so a stale bar
+          measurement shifts the content without ever opening a gap. */}
       {menuOpen && (
         <div
           id="mobile-menu"
-          style={{ top: barHeight }}
-          className="animate-fade fixed inset-x-0 bottom-0 z-40 overflow-y-auto bg-bone px-6 pb-10 pt-6 lg:hidden"
+          style={{ paddingTop: barHeight }}
+          className="animate-fade fixed inset-0 z-40 overflow-y-auto bg-bone px-6 pb-10 lg:hidden"
         >
-          <nav className="flex flex-col" aria-label="Mobile">
+          <nav className="flex flex-col pt-6" aria-label="Mobile">
             {navigation.map((item) => (
               <a
                 key={item.href}
