@@ -1,18 +1,32 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
 import { contact, navigation, studio } from '@/lib/site';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const barRef = useRef<HTMLDivElement>(null);
+  const [barHeight, setBarHeight] = useState(0);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  /* The drawer sits below the bar, whose height changes with the breakpoint
+     and with the scrolled padding, so measure it rather than guess. */
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(([entry]) =>
+      setBarHeight(entry.target.getBoundingClientRect().height)
+    );
+    observer.observe(bar);
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -31,77 +45,83 @@ export default function Navbar() {
   const solid = scrolled || menuOpen;
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
-        solid ? 'border-b border-linen bg-bone/90 backdrop-blur-md' : 'border-b border-transparent'
-      }`}
-    >
-      <div
-        className={`mx-auto flex max-w-[1400px] items-center justify-between px-6 transition-all duration-500 md:px-10 ${
-          solid ? 'py-4' : 'py-6'
+    <>
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
+          solid ? 'border-b border-linen bg-bone/90 backdrop-blur-md' : 'border-b border-transparent'
         }`}
       >
-        <a
-          href="#top"
-          className={`transition-colors ${solid ? 'text-ink' : 'text-bone'}`}
-          aria-label={`${studio.name} — home`}
+        <div
+          ref={barRef}
+          className={`mx-auto flex max-w-[1400px] items-center justify-between px-6 transition-all duration-500 md:px-10 ${
+            solid ? 'py-4' : 'py-6'
+          }`}
         >
-          <span className="block text-sm font-medium uppercase tracking-[0.3em] sm:text-base">
-            Lutroo <span className="font-light opacity-70">Spaces</span>
-          </span>
-          <span className="mt-1 hidden text-[10px] uppercase tracking-label opacity-60 sm:block">
-            {studio.tagline}
-          </span>
-        </a>
-
-        <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
-          {navigation.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className={`group relative text-[11px] uppercase tracking-label transition-colors ${
-                solid ? 'text-graphite hover:text-ink' : 'text-bone/80 hover:text-bone'
-              }`}
-            >
-              {item.label}
-              <span
-                className={`absolute -bottom-1.5 left-0 h-px w-0 transition-all duration-300 group-hover:w-full ${
-                  solid ? 'bg-ink' : 'bg-bone'
-                }`}
-              />
-            </a>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-3">
           <a
-            href="#contact"
-            className={`hidden rounded-full border px-6 py-2.5 text-[11px] uppercase tracking-label transition-colors lg:inline-block ${
-              solid
-                ? 'border-ink text-ink hover:bg-ink hover:text-bone'
-                : 'border-bone/60 text-bone hover:bg-bone hover:text-ink'
-            }`}
+            href="#top"
+            className={`transition-colors ${solid ? 'text-ink' : 'text-bone'}`}
+            aria-label={`${studio.name} — home`}
           >
-            Book a visit
+            <span className="block text-sm font-medium uppercase tracking-[0.3em] sm:text-base">
+              Lutroo <span className="font-light opacity-70">Spaces</span>
+            </span>
+            <span className="mt-1 hidden text-[10px] uppercase tracking-label opacity-60 sm:block">
+              {studio.tagline}
+            </span>
           </a>
 
-          <button
-            type="button"
-            onClick={() => setMenuOpen((open) => !open)}
-            aria-expanded={menuOpen}
-            aria-controls="mobile-menu"
-            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
-            className={`-mr-2 p-2 transition-colors lg:hidden ${solid ? 'text-ink' : 'text-bone'}`}
-          >
-            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-        </div>
-      </div>
+          <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
+            {navigation.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className={`group relative text-[11px] uppercase tracking-label transition-colors ${
+                  solid ? 'text-graphite hover:text-ink' : 'text-bone/80 hover:text-bone'
+                }`}
+              >
+                {item.label}
+                <span
+                  className={`absolute -bottom-1.5 left-0 h-px w-0 transition-all duration-300 group-hover:w-full ${
+                    solid ? 'bg-ink' : 'bg-bone'
+                  }`}
+                />
+              </a>
+            ))}
+          </nav>
 
+          <div className="flex items-center gap-3">
+            <a
+              href="#contact"
+              className={`hidden rounded-full border px-6 py-2.5 text-[11px] uppercase tracking-label transition-colors lg:inline-block ${
+                solid
+                  ? 'border-ink text-ink hover:bg-ink hover:text-bone'
+                  : 'border-bone/60 text-bone hover:bg-bone hover:text-ink'
+              }`}
+            >
+              Book a visit
+            </a>
+
+            <button
+              type="button"
+              onClick={() => setMenuOpen((open) => !open)}
+              aria-expanded={menuOpen}
+              aria-controls="mobile-menu"
+              aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+              className={`-mr-2 p-2 transition-colors lg:hidden ${solid ? 'text-ink' : 'text-bone'}`}
+            >
+              {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Rendered outside <header> on purpose: the header's backdrop-blur makes
+          it a containing block, which would collapse this fixed drawer. */}
       {menuOpen && (
         <div
           id="mobile-menu"
-          className="animate-fade border-t border-linen bg-bone px-6 pb-10 pt-6 lg:hidden"
+          style={{ top: barHeight }}
+          className="animate-fade fixed inset-x-0 bottom-0 z-40 overflow-y-auto bg-bone px-6 pb-10 pt-6 lg:hidden"
         >
           <nav className="flex flex-col" aria-label="Mobile">
             {navigation.map((item) => (
@@ -134,6 +154,6 @@ export default function Navbar() {
           </a>
         </div>
       )}
-    </header>
+    </>
   );
 }

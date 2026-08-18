@@ -6,17 +6,20 @@ export default function Hero() {
   return (
     <section id="top" className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden">
       <Image
-        src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=2400&q=80"
-        alt="A calm, naturally lit living room finished in warm timber and stone"
+        src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=2400&q=80"
+        alt="An open living space in warm timber opening onto a planted terrace"
         fill
         priority
         sizes="100vw"
         className="object-cover"
       />
-      <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/40 to-ink/85" />
+      {/* Two layers: a flat wash to hold light photography, plus a vertical
+          ramp so the headline and footer copy always clear contrast. */}
+      <div className="absolute inset-0 bg-ink/30" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/45 to-ink/85" />
 
       <div className="relative mx-auto w-full max-w-[1400px] px-6 pb-14 pt-32 md:px-10">
-        <p className="label animate-rise text-bone/70">
+        <p className="label animate-rise text-bone/80">
           {studio.discipline} · {contact.location}
         </p>
 
@@ -26,7 +29,7 @@ export default function Hero() {
         </h1>
 
         <div className="mt-10 grid gap-10 border-t border-bone/20 pt-8 md:grid-cols-12">
-          <p className="animate-rise max-w-readable text-sm leading-relaxed text-bone/80 md:col-span-6 lg:text-base">
+          <p className="animate-rise max-w-readable text-sm leading-relaxed text-bone/90 md:col-span-6 lg:text-base">
             We design wellness-focused interiors and landscapes that blend functionality,
             aesthetics and emotional balance — environments that inspire calm, creativity and
             connection.
@@ -49,7 +52,7 @@ export default function Hero() {
         </div>
 
         <div className="mt-12 flex items-center justify-between border-t border-bone/20 pt-6">
-          <p className="label text-bone/60">{studio.tagline}</p>
+          <p className="label text-bone/70">{studio.tagline}</p>
           <a
             href="#studio"
             aria-label="Scroll to studio introduction"
