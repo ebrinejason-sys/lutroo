@@ -1,261 +1,253 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Phone, Mail, Clock, Send, CheckCircle2, ChevronDown } from 'lucide-react';
+import { useState } from 'react';
+import { Check, ChevronDown, Clock, Mail, MapPin, Phone } from 'lucide-react';
+import { contact, faqs, services } from '@/lib/site';
+import { mailtoHref, whatsappHref } from '@/lib/enquiry';
 
 export default function Contact() {
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [service, setService] = useState(services[0].title);
+  const [message, setMessage] = useState('');
+  const [sent, setSent] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
 
-  const faqs = [
-    {
-      q: 'How do I schedule an on-site consultation?',
-      a: 'You can reach us directly at +25670745645, email lutroospaces@gmail.com, or use our interactive Space Planner to submit a project brief. Our team will coordinate a convenient site visit.',
-    },
-    {
-      q: 'What types of projects does Lutroo Spaces specialize in?',
-      a: 'We specialize in residential sanctuaries, biophilic outdoor landscape planning, commercial brand environments (offices, hospitality, restaurants), and spatial flow optimization.',
-    },
-    {
-      q: 'What is Lutroo Spaces design philosophy?',
-      a: 'Our philosophy — Design, Innovate, Elevate — guides every project. We blend research, empathy, and artistry to ensure each space promotes well-being and emotional balance.',
-    },
-    {
-      q: 'Do you offer site visits before starting a full design project?',
-      a: 'Yes! Professional on-site consultations and assessments are one of our core standalone services. We evaluate sunlight, airflow, traffic flow, and offer immediate actionable recommendations.',
-    },
-  ];
-
   return (
-    <section id="contact" className="py-24 bg-brand-cream relative">
-      <div className="max-w-7xl mx-auto px-6 md:px-12">
-        {/* Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
-          <span className="text-xs uppercase tracking-[0.25em] text-brand-sage font-semibold">
-            💬 Get in Touch
-          </span>
-          <h2 className="font-serif text-3xl sm:text-5xl font-medium text-brand-obsidian">
-            Let’s Bring Your <span className="italic font-light text-brand-earth">Vision to Life</span>
-          </h2>
-          <p className="text-sm text-brand-charcoal/80 font-light leading-relaxed">
-            Reach out to schedule an on-site consultation or discuss your interior architecture and landscape aspirations.
-          </p>
-        </div>
+    <section id="contact" className="bg-sand py-24 md:py-32">
+      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+        <header className="grid gap-6 md:grid-cols-12">
+          <p className="label md:col-span-3">Get in touch</p>
+          <div className="md:col-span-9">
+            <h2 className="font-display text-3xl font-light leading-[1.15] text-ink sm:text-4xl lg:text-5xl">
+              Let&rsquo;s bring your vision to life.
+            </h2>
+            <p className="mt-6 max-w-readable text-base leading-relaxed text-graphite">
+              Call, write, or send a short note below to schedule a consultation. A senior designer
+              reads every enquiry.
+            </p>
+          </div>
+        </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-20">
-          {/* Direct Contact Cards */}
-          <div className="lg:col-span-5 space-y-6">
-            <div className="p-8 rounded-3xl bg-brand-sand border border-brand-stone/70 shadow-lg space-y-6">
-              <h3 className="font-serif text-2xl font-medium text-brand-obsidian">
-                Direct Channels
-              </h3>
+        <div className="mt-16 grid gap-12 md:mt-20 md:grid-cols-12 md:gap-16">
+          <div className="md:col-span-5">
+            <ul className="border-t border-linen">
+              <ChannelRow
+                icon={<Phone className="h-4 w-4" />}
+                label="Call or WhatsApp"
+                value={contact.phoneDisplay}
+                href={`tel:${contact.phone}`}
+              />
+              <ChannelRow
+                icon={<Mail className="h-4 w-4" />}
+                label="Email"
+                value={contact.email}
+                href={`mailto:${contact.email}`}
+              />
+              <ChannelRow
+                icon={<MapPin className="h-4 w-4" />}
+                label="Studio"
+                value={contact.location}
+              />
+              <ChannelRow
+                icon={<Clock className="h-4 w-4" />}
+                label="Hours"
+                value={contact.hours}
+              />
+            </ul>
 
-              <div className="space-y-4">
-                <a
-                  href="tel:+25670745645"
-                  className="p-4 rounded-2xl bg-brand-cream border border-brand-stone/60 flex items-center gap-4 hover:border-brand-sage transition-all group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-brand-olive text-brand-sand flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                    <Phone className="w-5 h-5 text-brand-sage" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-brand-sage block">
-                      Call or WhatsApp
-                    </span>
-                    <span className="font-serif text-base font-semibold text-brand-obsidian">
-                      +256 707 456 45
-                    </span>
-                  </div>
-                </a>
-
-                <a
-                  href="mailto:lutroospaces@gmail.com"
-                  className="p-4 rounded-2xl bg-brand-cream border border-brand-stone/60 flex items-center gap-4 hover:border-brand-sage transition-all group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-brand-olive text-brand-sand flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
-                    <Mail className="w-5 h-5 text-brand-sage" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-brand-sage block">
-                      Email Us
-                    </span>
-                    <span className="font-serif text-base font-semibold text-brand-obsidian">
-                      lutroospaces@gmail.com
-                    </span>
-                  </div>
-                </a>
-
-                <div className="p-4 rounded-2xl bg-brand-cream border border-brand-stone/60 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-brand-olive text-brand-sand flex items-center justify-center shrink-0">
-                    <Clock className="w-5 h-5 text-brand-sage" />
-                  </div>
-                  <div>
-                    <span className="text-[10px] uppercase tracking-[0.2em] font-semibold text-brand-sage block">
-                      Studio Hours
-                    </span>
-                    <span className="font-serif text-sm font-medium text-brand-obsidian">
-                      Mon - Sat: 8:00 AM - 6:00 PM
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Studio Motto Banner */}
-            <div className="p-8 rounded-3xl bg-brand-olive text-brand-sand shadow-xl space-y-2">
-              <span className="text-[11px] uppercase tracking-[0.25em] font-semibold text-brand-sage">
-                Design • Innovate • Elevate
-              </span>
-              <p className="font-serif text-lg font-light italic leading-relaxed">
-                &ldquo;A well‑designed environment can calm, inspire, and energize — shaping how people feel, think, and connect.&rdquo;
-              </p>
-            </div>
+            <a
+              href={whatsappHref()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-block rounded-full border border-ink px-8 py-4 text-[11px] uppercase tracking-label text-ink transition-colors hover:bg-ink hover:text-bone"
+            >
+              Message on WhatsApp
+            </a>
           </div>
 
-          {/* Booking Form */}
-          <div className="lg:col-span-7 bg-brand-sand rounded-3xl p-8 md:p-12 border border-brand-stone/70 shadow-2xl">
-            <h3 className="font-serif text-2xl font-medium text-brand-obsidian mb-2">
-              Schedule a Consultation
-            </h3>
-            <p className="text-xs text-brand-charcoal/80 font-light mb-8">
-              Fill out the form below and our design team will contact you promptly.
-            </p>
-
-            {!formSubmitted ? (
+          <div className="md:col-span-7">
+            {sent ? (
+              <div className="animate-fade border border-linen bg-bone p-10 text-center">
+                <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-sage text-sage">
+                  <Check className="h-6 w-6" />
+                </div>
+                <h3 className="mt-8 font-display text-2xl font-light text-ink">
+                  Thank you for reaching out
+                </h3>
+                <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-graphite">
+                  Your message has been prepared in your email app. If it didn&rsquo;t open, reach
+                  us directly at {contact.email} or {contact.phoneDisplay}.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSent(false)}
+                  className="mt-8 text-[11px] uppercase tracking-label text-graphite underline underline-offset-4 hover:text-ink"
+                >
+                  Write another message
+                </button>
+              </div>
+            ) : (
               <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  setFormSubmitted(true);
+                className="space-y-6 border border-linen bg-bone p-6 sm:p-10"
+                onSubmit={(event) => {
+                  event.preventDefault();
+                  window.location.href = mailtoHref({
+                    name,
+                    email,
+                    spaceType: service,
+                    services: [service],
+                    message,
+                  });
+                  setSent(true);
                 }}
-                className="space-y-4"
               >
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid gap-5 sm:grid-cols-2">
                   <div>
-                    <label className="text-[11px] uppercase tracking-wider font-semibold text-brand-obsidian block mb-1">
-                      Full Name *
+                    <label htmlFor="contact-name" className="label">
+                      Full name
                     </label>
                     <input
-                      type="text"
+                      id="contact-name"
                       required
-                      placeholder="Jane Doe"
-                      className="w-full px-4 py-3 rounded-xl bg-brand-cream border border-brand-stone/70 text-xs focus:outline-none focus:ring-2 focus:ring-brand-olive text-brand-obsidian"
+                      autoComplete="name"
+                      value={name}
+                      onChange={(event) => setName(event.target.value)}
+                      className="mt-2 w-full border border-linen bg-sand px-4 py-3 text-sm text-ink"
                     />
                   </div>
                   <div>
-                    <label className="text-[11px] uppercase tracking-wider font-semibold text-brand-obsidian block mb-1">
-                      Phone Number *
+                    <label htmlFor="contact-email" className="label">
+                      Email
                     </label>
                     <input
-                      type="tel"
+                      id="contact-email"
+                      type="email"
                       required
-                      placeholder="+25670745645"
-                      className="w-full px-4 py-3 rounded-xl bg-brand-cream border border-brand-stone/70 text-xs focus:outline-none focus:ring-2 focus:ring-brand-olive text-brand-obsidian"
+                      autoComplete="email"
+                      value={email}
+                      onChange={(event) => setEmail(event.target.value)}
+                      className="mt-2 w-full border border-linen bg-sand px-4 py-3 text-sm text-ink"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-[11px] uppercase tracking-wider font-semibold text-brand-obsidian block mb-1">
-                    Email Address *
+                  <label htmlFor="contact-service" className="label">
+                    Service of interest
                   </label>
-                  <input
-                    type="email"
-                    required
-                    placeholder="lutroospaces@gmail.com"
-                    className="w-full px-4 py-3 rounded-xl bg-brand-cream border border-brand-stone/70 text-xs focus:outline-none focus:ring-2 focus:ring-brand-olive text-brand-obsidian"
-                  />
-                </div>
-
-                <div>
-                  <label className="text-[11px] uppercase tracking-wider font-semibold text-brand-obsidian block mb-1">
-                    Service of Interest
-                  </label>
-                  <select className="w-full px-4 py-3 rounded-xl bg-brand-cream border border-brand-stone/70 text-xs focus:outline-none focus:ring-2 focus:ring-brand-olive text-brand-obsidian">
-                    <option>Interior Design Sanctuary</option>
-                    <option>Landscape Planning & Botanical Gardens</option>
-                    <option>Spatial Optimization & Layout Re-engineering</option>
-                    <option>Brand Space Design (Hospitality/Office)</option>
-                    <option>On-Site Visit & Consultation</option>
+                  <select
+                    id="contact-service"
+                    value={service}
+                    onChange={(event) => setService(event.target.value)}
+                    className="mt-2 w-full border border-linen bg-sand px-4 py-3 text-sm text-ink"
+                  >
+                    {services.map((item) => (
+                      <option key={item.id} value={item.title}>
+                        {item.title}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
                 <div>
-                  <label className="text-[11px] uppercase tracking-wider font-semibold text-brand-obsidian block mb-1">
-                    Project Overview / Aspirations
+                  <label htmlFor="contact-message" className="label">
+                    Your message
                   </label>
                   <textarea
-                    rows={4}
-                    placeholder="Tell us about your space, lifestyle goals, or timeline..."
-                    className="w-full px-4 py-3 rounded-xl bg-brand-cream border border-brand-stone/70 text-xs focus:outline-none focus:ring-2 focus:ring-brand-olive text-brand-obsidian resize-none"
+                    id="contact-message"
+                    rows={5}
+                    required
+                    value={message}
+                    onChange={(event) => setMessage(event.target.value)}
+                    placeholder="Tell us about the space, your timeline, and how you want it to feel…"
+                    className="mt-2 w-full resize-none border border-linen bg-sand px-4 py-3 text-sm text-ink placeholder:text-graphite/60"
                   />
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full py-4 rounded-full bg-brand-obsidian text-brand-cream text-xs uppercase font-semibold tracking-wider hover:bg-brand-terracotta transition-colors shadow-lg flex items-center justify-center gap-2"
+                  className="w-full rounded-full bg-forest px-8 py-4 text-[11px] uppercase tracking-label text-bone transition-colors hover:bg-ink"
                 >
-                  <Send className="w-4 h-4 text-brand-sage" />
-                  <span>Send Consultation Request</span>
+                  Send message
                 </button>
               </form>
-            ) : (
-              <div className="text-center py-12 space-y-4 animate-in fade-in">
-                <div className="w-14 h-14 rounded-full bg-brand-sage/20 text-brand-moss flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-8 h-8" />
-                </div>
-                <h4 className="font-serif text-2xl font-medium text-brand-obsidian">
-                  Message Sent Successfully!
-                </h4>
-                <p className="text-xs text-brand-charcoal/80 max-w-sm mx-auto font-light leading-relaxed">
-                  Thank you for reaching out to Lutroo Spaces. Our team will review your inquiry and connect with you shortly.
-                </p>
-                <button
-                  onClick={() => setFormSubmitted(false)}
-                  className="text-xs uppercase tracking-wider font-semibold text-brand-terracotta underline"
-                >
-                  Send Another Inquiry
-                </button>
-              </div>
             )}
           </div>
         </div>
 
-        {/* FAQ Accordion Section */}
-        <div className="mt-20 pt-12 border-t border-brand-stone/60 max-w-4xl mx-auto">
-          <h3 className="font-serif text-2xl sm:text-3xl font-medium text-brand-obsidian mb-8 text-center">
-            Frequently Asked Questions
-          </h3>
-
-          <div className="space-y-4">
-            {faqs.map((faq, idx) => {
-              const isOpen = openFaq === idx;
+        <div className="mt-24 grid gap-10 border-t border-linen pt-16 md:grid-cols-12">
+          <h3 className="label md:col-span-3">Common questions</h3>
+          <dl className="md:col-span-9">
+            {faqs.map((faq, index) => {
+              const isOpen = openFaq === index;
               return (
-                <div
-                  key={idx}
-                  className="rounded-2xl bg-brand-sand border border-brand-stone/60 overflow-hidden"
-                >
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full p-6 text-left flex items-center justify-between font-serif text-base font-semibold text-brand-obsidian hover:text-brand-terracotta transition-colors"
-                  >
-                    <span>{faq.q}</span>
-                    <ChevronDown
-                      className={`w-5 h-5 text-brand-sage transition-transform ${
-                        isOpen ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </button>
+                <div key={faq.question} className="border-b border-linen first:border-t">
+                  <dt>
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(isOpen ? null : index)}
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-${index}`}
+                      className="flex w-full items-center justify-between gap-6 py-6 text-left font-display text-xl text-ink transition-colors hover:text-clay"
+                    >
+                      {faq.question}
+                      <ChevronDown
+                        aria-hidden
+                        className={`h-4 w-4 shrink-0 text-graphite transition-transform ${
+                          isOpen ? 'rotate-180' : ''
+                        }`}
+                      />
+                    </button>
+                  </dt>
                   {isOpen && (
-                    <div className="px-6 pb-6 text-xs text-brand-charcoal/80 font-light leading-relaxed border-t border-brand-stone/40 pt-4">
-                      {faq.a}
-                    </div>
+                    <dd
+                      id={`faq-${index}`}
+                      className="animate-fade max-w-readable pb-7 text-sm leading-relaxed text-graphite"
+                    >
+                      {faq.answer}
+                    </dd>
                   )}
                 </div>
               );
             })}
-          </div>
+          </dl>
         </div>
       </div>
     </section>
+  );
+}
+
+function ChannelRow({
+  icon,
+  label,
+  value,
+  href,
+}: {
+  icon: React.ReactNode;
+  label: string;
+  value: string;
+  href?: string;
+}) {
+  const content = (
+    <>
+      <span className="mt-1 text-sage">{icon}</span>
+      <span>
+        <span className="label block">{label}</span>
+        <span className="mt-1 block font-display text-xl text-ink">{value}</span>
+      </span>
+    </>
+  );
+
+  return (
+    <li className="border-b border-linen">
+      {href ? (
+        <a href={href} className="flex gap-4 py-6 transition-opacity hover:opacity-70">
+          {content}
+        </a>
+      ) : (
+        <div className="flex gap-4 py-6">{content}</div>
+      )}
+    </li>
   );
 }

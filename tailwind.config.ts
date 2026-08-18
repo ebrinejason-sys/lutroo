@@ -2,29 +2,45 @@ import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
     './app/**/*.{js,ts,jsx,tsx,mdx}',
+    './lib/**/*.{js,ts}',
   ],
   theme: {
     extend: {
       colors: {
-        brand: {
-          stone: '#EAE6DF',
-          sand: '#F7F5F0',
-          cream: '#FAF9F5',
-          sage: '#8A9A86',
-          moss: '#5C6B57',
-          olive: '#3B4438',
-          earth: '#8C6F56',
-          terracotta: '#A65D43',
-          obsidian: '#1A1C19',
-          charcoal: '#2D302C',
-        },
+        bone: '#FCFBF8',
+        sand: '#F3F0EA',
+        linen: '#E4DFD5',
+        ink: '#1C1A17',
+        graphite: '#55514B',
+        forest: '#2F3A33',
+        sage: '#8C9C8B',
+        clay: '#A9724F',
       },
       fontFamily: {
-        serif: ['var(--font-playfair)', 'Georgia', 'serif'],
-        sans: ['var(--font-plus-jakarta)', 'system-ui', 'sans-serif'],
+        display: ['var(--font-display)', 'Georgia', 'serif'],
+        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+      },
+      letterSpacing: {
+        label: '0.22em',
+      },
+      maxWidth: {
+        readable: '68ch',
+      },
+      keyframes: {
+        rise: {
+          from: { opacity: '0', transform: 'translateY(1.25rem)' },
+          to: { opacity: '1', transform: 'translateY(0)' },
+        },
+        fade: {
+          from: { opacity: '0' },
+          to: { opacity: '1' },
+        },
+      },
+      animation: {
+        rise: 'rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both',
+        fade: 'fade 0.4s ease-out both',
       },
     },
   },

@@ -1,136 +1,137 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Menu, X, ArrowUpRight, Compass, Phone, Mail } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Menu, X } from 'lucide-react';
+import { contact, navigation, studio } from '@/lib/site';
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 30) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Philosophy', href: '#philosophy' },
-    { name: 'Services', href: '#services' },
-    { name: 'Approach', href: '#approach' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Space Planner', href: '#planner' },
-    { name: 'Contact', href: '#contact' },
-  ];
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    };
+    document.addEventListener('keydown', onKeyDown);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [menuOpen]);
+
+  const solid = scrolled || menuOpen;
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'bg-brand-cream/90 backdrop-blur-md shadow-sm py-4 border-b border-brand-stone/40'
-          : 'bg-transparent py-6'
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${
+        solid ? 'border-b border-linen bg-bone/90 backdrop-blur-md' : 'border-b border-transparent'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between">
-        {/* Brand Logo */}
-        <Link href="/" className="group flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-brand-olive text-brand-sand flex items-center justify-center transition-transform duration-500 group-hover:rotate-12">
-            <Compass className="w-5 h-5 text-brand-sage" />
-          </div>
-          <div className="flex flex-col">
-            <span className="font-serif text-xl font-bold tracking-tight text-brand-obsidian uppercase">
-              LUTROO <span className="text-brand-sage font-light">SPACES</span>
-            </span>
-            <span className="text-[10px] tracking-[0.25em] text-brand-earth uppercase font-medium">
-              Design • Innovate • Elevate
-            </span>
-          </div>
-        </Link>
+      <div
+        className={`mx-auto flex max-w-[1400px] items-center justify-between px-6 transition-all duration-500 md:px-10 ${
+          solid ? 'py-4' : 'py-6'
+        }`}
+      >
+        <a
+          href="#top"
+          className={`transition-colors ${solid ? 'text-ink' : 'text-bone'}`}
+          aria-label={`${studio.name} — home`}
+        >
+          <span className="block text-sm font-medium uppercase tracking-[0.3em] sm:text-base">
+            Lutroo <span className="font-light opacity-70">Spaces</span>
+          </span>
+          <span className="mt-1 hidden text-[10px] uppercase tracking-label opacity-60 sm:block">
+            {studio.tagline}
+          </span>
+        </a>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              className="text-xs uppercase tracking-[0.15em] font-medium text-brand-charcoal hover:text-brand-terracotta transition-colors relative group py-1"
+        <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
+          {navigation.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              className={`group relative text-[11px] uppercase tracking-label transition-colors ${
+                solid ? 'text-graphite hover:text-ink' : 'text-bone/80 hover:text-bone'
+              }`}
             >
-              {link.name}
-              <span className="absolute bottom-0 left-0 w-0 h-[1.5px] bg-brand-terracotta transition-all duration-300 group-hover:w-full" />
-            </Link>
+              {item.label}
+              <span
+                className={`absolute -bottom-1.5 left-0 h-px w-0 transition-all duration-300 group-hover:w-full ${
+                  solid ? 'bg-ink' : 'bg-bone'
+                }`}
+              />
+            </a>
           ))}
         </nav>
 
-        {/* Right CTA */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <a
-            href="#planner"
-            className="group relative inline-flex items-center justify-center px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-brand-sand bg-brand-olive rounded-full overflow-hidden transition-all duration-300 hover:bg-brand-charcoal hover:shadow-md"
+            href="#contact"
+            className={`hidden rounded-full border px-6 py-2.5 text-[11px] uppercase tracking-label transition-colors lg:inline-block ${
+              solid
+                ? 'border-ink text-ink hover:bg-ink hover:text-bone'
+                : 'border-bone/60 text-bone hover:bg-bone hover:text-ink'
+            }`}
           >
-            <span className="relative z-10 flex items-center gap-2">
-              Schedule Consultation
-              <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-brand-sage" />
-            </span>
+            Book a visit
           </a>
-        </div>
 
-        {/* Mobile Toggle */}
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-brand-obsidian focus:outline-none"
-          aria-label="Toggle Navigation Menu"
-        >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
+          <button
+            type="button"
+            onClick={() => setMenuOpen((open) => !open)}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-menu"
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            className={`-mr-2 p-2 transition-colors lg:hidden ${solid ? 'text-ink' : 'text-bone'}`}
+          >
+            {menuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
-      {/* Mobile Drawer */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[72px] bg-brand-cream/98 backdrop-blur-xl border-b border-brand-stone p-8 shadow-2xl transition-all animate-in fade-in slide-in-from-top-4">
-          <nav className="flex flex-col gap-6">
-            {navLinks.map((link) => (
-              <Link
-                key={link.name}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="text-sm uppercase tracking-[0.2em] font-semibold text-brand-obsidian hover:text-brand-terracotta transition-colors flex items-center justify-between border-b border-brand-stone/30 pb-3"
+      {menuOpen && (
+        <div
+          id="mobile-menu"
+          className="animate-fade border-t border-linen bg-bone px-6 pb-10 pt-6 lg:hidden"
+        >
+          <nav className="flex flex-col" aria-label="Mobile">
+            {navigation.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setMenuOpen(false)}
+                className="border-b border-linen py-4 font-display text-2xl text-ink transition-colors hover:text-clay"
               >
-                {link.name}
-                <ArrowUpRight className="w-4 h-4 text-brand-sage" />
-              </Link>
+                {item.label}
+              </a>
             ))}
-
-            <div className="pt-4 flex flex-col gap-3">
-              <a
-                href="tel:+25670745645"
-                className="flex items-center gap-3 text-xs text-brand-charcoal"
-              >
-                <Phone className="w-4 h-4 text-brand-sage" />
-                +256 707 456 45
-              </a>
-              <a
-                href="mailto:lutroospaces@gmail.com"
-                className="flex items-center gap-3 text-xs text-brand-charcoal"
-              >
-                <Mail className="w-4 h-4 text-brand-sage" />
-                lutroospaces@gmail.com
-              </a>
-              <a
-                href="#planner"
-                onClick={() => setMobileMenuOpen(false)}
-                className="mt-2 w-full py-3 bg-brand-olive text-brand-sand text-xs uppercase tracking-wider text-center font-semibold rounded-full"
-              >
-                Schedule Consultation
-              </a>
-            </div>
           </nav>
+
+          <div className="mt-8 space-y-2 text-sm text-graphite">
+            <a href={`tel:${contact.phone}`} className="block hover:text-ink">
+              {contact.phoneDisplay}
+            </a>
+            <a href={`mailto:${contact.email}`} className="block hover:text-ink">
+              {contact.email}
+            </a>
+          </div>
+
+          <a
+            href="#contact"
+            onClick={() => setMenuOpen(false)}
+            className="mt-6 block rounded-full bg-forest px-6 py-4 text-center text-[11px] uppercase tracking-label text-bone"
+          >
+            Book a visit
+          </a>
         </div>
       )}
     </header>

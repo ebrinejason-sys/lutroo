@@ -1,33 +1,90 @@
-import type { Metadata } from 'next';
-import { Playfair_Display, Plus_Jakarta_Sans } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Cormorant_Garamond, Inter } from 'next/font/google';
+import { contact, studio } from '@/lib/site';
 import './globals.css';
 
+const display = Cormorant_Garamond({
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600'],
+  variable: '--font-display',
+  display: 'swap',
+});
+
+const sans = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
-  title: 'Lutroo Spaces | Multidisciplinary Wellness & Interior Design Studio',
-  description: 'Lutroo Spaces is a multidisciplinary design studio redefining how people experience space with wellness-focused environments that blend functionality, aesthetics, and emotional balance.',
+  metadataBase: new URL(studio.url),
+  title: {
+    default: `${studio.name} — Wellness-Focused Interior & Landscape Design`,
+    template: `%s — ${studio.name}`,
+  },
+  description: studio.summary,
+  keywords: [
+    'interior design',
+    'landscape design',
+    'spatial planning',
+    'brand space design',
+    'wellness design',
+    'Kampala',
+    'Uganda',
+  ],
+  openGraph: {
+    type: 'website',
+    url: studio.url,
+    siteName: studio.name,
+    title: `${studio.name} — Wellness-Focused Interior & Landscape Design`,
+    description: studio.summary,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${studio.name} — Wellness-Focused Interior & Landscape Design`,
+    description: studio.summary,
+  },
+  alternates: { canonical: '/' },
 };
 
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair',
-  display: 'swap',
-});
+export const viewport: Viewport = {
+  themeColor: '#2F3A33',
+};
 
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-plus-jakarta',
-  display: 'swap',
-});
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: studio.name,
+  description: studio.summary,
+  url: studio.url,
+  telephone: contact.phone,
+  email: contact.email,
+  areaServed: 'Uganda',
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Kampala',
+    addressCountry: 'UG',
+  },
+  slogan: studio.tagline,
+};
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${plusJakarta.variable} scroll-smooth`}>
-      <body className="antialiased bg-brand-cream text-brand-obsidian selection:bg-brand-sage selection:text-white">
+    <html lang="en" className={`${display.variable} ${sans.variable} scroll-smooth`}>
+      <body>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-forest focus:px-5 focus:py-3 focus:text-xs focus:uppercase focus:tracking-label focus:text-bone"
+        >
+          Skip to content
+        </a>
         {children}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
       </body>
     </html>
   );
