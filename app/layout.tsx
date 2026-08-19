@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next';
-import { Cormorant_Garamond, Inter } from 'next/font/google';
+import { Cormorant_Garamond, Great_Vibes, Inter } from 'next/font/google';
+import Intro from '@/components/Intro';
 import { contact, studio } from '@/lib/site';
 import './globals.css';
 
@@ -13,6 +14,13 @@ const display = Cormorant_Garamond({
 const sans = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
+  display: 'swap',
+});
+
+const script = Great_Vibes({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-script',
   display: 'swap',
 });
 
@@ -72,7 +80,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable} scroll-smooth`}>
+    <html lang="en" className={`${display.variable} ${sans.variable} ${script.variable} scroll-smooth`}>
       <body>
         <a
           href="#main"
@@ -80,6 +88,10 @@ export default function RootLayout({
         >
           Skip to content
         </a>
+        <noscript>
+          <style>{`.intro-overlay{display:none!important}`}</style>
+        </noscript>
+        <Intro />
         {children}
         <script
           type="application/ld+json"

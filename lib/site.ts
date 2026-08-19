@@ -1,6 +1,6 @@
 export const studio = {
   name: 'Lutroo Spaces',
-  tagline: 'Design · Innovate · Elevate',
+  tagline: 'Design. Refine. Elevate.',
   discipline: 'Multidisciplinary Design Studio',
   summary:
     'Lutroo Spaces is a multidisciplinary design studio redefining how people experience space. We specialise in wellness-focused environments, blending functionality, aesthetics, and emotional balance to create interiors that inspire calm, creativity, and connection.',
@@ -9,8 +9,8 @@ export const studio = {
 
 export const contact = {
   /** Raw digits, used for tel: and wa.me links. */
-  phone: '+25670745645',
-  phoneDisplay: '+256 707 456 45',
+  phone: '+256770745645',
+  phoneDisplay: '+256 770 745 645',
   email: 'lutroospaces@gmail.com',
   hours: 'Monday – Saturday, 8:00 – 18:00',
   location: 'Kampala, Uganda',

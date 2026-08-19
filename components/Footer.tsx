@@ -9,7 +9,7 @@ export default function Footer() {
             <p className="text-base font-medium uppercase tracking-[0.3em]">
               Lutroo <span className="font-light opacity-70">Spaces</span>
             </p>
-            <p className="mt-2 text-[10px] uppercase tracking-label text-sage">
+            <p className="mt-2 font-script text-lg text-sage">
               {studio.tagline}
             </p>
             <p className="mt-8 max-w-sm text-sm leading-relaxed text-bone/70">

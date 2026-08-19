@@ -14,8 +14,9 @@ import {
 
 describe('contact details', () => {
   test('match the details the studio published', () => {
-    assert.equal(contact.phone, '+25670745645');
+    assert.equal(contact.phone, '+256770745645');
     assert.equal(contact.email, 'lutroospaces@gmail.com');
+    assert.equal(contact.phone, `+256${'0770745645'.slice(1)}`);
   });
 
   test('the display number is the same number, just spaced', () => {
@@ -122,6 +123,7 @@ describe('content completeness', () => {
   test('the studio summary keeps the published positioning', () => {
     assert.match(studio.summary, /multidisciplinary design studio/i);
     assert.match(studio.summary, /wellness-focused/i);
-    assert.equal(studio.tagline, 'Design · Innovate · Elevate');
+    assert.equal(studio.tagline, 'Design. Refine. Elevate.');
+    assert.doesNotMatch(studio.tagline, /innovate/i);
   });
 });

@@ -52,7 +52,7 @@ export default function Hero() {
         </div>
 
         <div className="mt-12 flex items-center justify-between border-t border-bone/20 pt-6">
-          <p className="label text-bone/70">{studio.tagline}</p>
+          <p className="font-script text-xl text-bone/80">{studio.tagline}</p>
           <a
             href="#studio"
             aria-label="Scroll to studio introduction"
