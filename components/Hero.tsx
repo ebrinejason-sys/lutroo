@@ -18,7 +18,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-ink/30" />
       <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/45 to-ink/85" />
 
-      <div className="relative mx-auto w-full max-w-[1400px] px-6 pb-14 pt-32 md:px-10">
+      <div className="relative mx-auto w-full max-w-[1400px] px-6 pb-14 pt-40 md:px-10">
         <p className="label animate-rise text-bone/80">
           {studio.discipline} · {contact.location}
         </p>

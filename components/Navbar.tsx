@@ -55,7 +55,7 @@ export default function Navbar() {
         <div
           ref={barRef}
           className={`mx-auto flex max-w-[1400px] items-center justify-between px-6 transition-all duration-500 md:px-10 ${
-            solid ? 'py-4' : 'py-6'
+            solid ? 'py-2.5' : 'py-3'
           }`}
         >
           <a

@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="mx-auto max-w-[1400px] px-6 py-20 md:px-10 md:py-24">
         <div className="grid gap-12 border-b border-bone/15 pb-16 md:grid-cols-12">
           <div className="md:col-span-5">
-            <Logo variant="nav" />
+            <Logo variant="footer" />
             <p className="mt-8 max-w-sm text-sm leading-relaxed text-bone/70">
               {studio.summary}
             </p>
