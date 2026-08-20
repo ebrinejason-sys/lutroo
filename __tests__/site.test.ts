@@ -24,15 +24,19 @@ describe('contact details', () => {
 });
 
 describe('services', () => {
-  test('cover the five published offerings', () => {
+  test('cover the published offerings', () => {
     assert.deepEqual(
       services.map((service) => service.title),
       [
         'Interior Design',
-        'Landscape Planning',
+        'Landscaping',
         'Spatial Optimization',
         'Brand Space Design',
         'Site Visits',
+        'Architectural Drawings',
+        'Renovation and Revamping',
+        'Site Supervision',
+        'Design Consultation',
       ]
     );
   });
@@ -122,6 +126,22 @@ describe('content completeness', () => {
   test('the studio summary keeps the published positioning', () => {
     assert.match(studio.summary, /multidisciplinary design studio/i);
     assert.match(studio.summary, /wellness-focused/i);
-    assert.equal(studio.tagline, 'Design · Innovate · Elevate');
+    assert.match(studio.summary, /create spaces that inspire/i);
+    assert.equal(studio.tagline, 'Design. Refine. Elevate.');
+    assert.equal(studio.promise, 'Elevating spaces into their truest potential');
+    assert.doesNotMatch(studio.summary, /interiors and landscapes/i);
+  });
+
+  test('the hero speaks about spaces and the studio promise', () => {
+    const hero = readFileSync(new URL('../components/Hero.tsx', import.meta.url), 'utf8');
+    assert.match(hero, /wellness-focused spaces that blend/);
+    assert.ok(!hero.includes('interiors and landscapes'));
+    assert.match(hero, /studio\.promise/);
+  });
+
+  test('the brand mark knocks the window out instead of filling it black', () => {
+    const mark = readFileSync(new URL('../components/BrandMark.tsx', import.meta.url), 'utf8');
+    assert.match(mark, /fillRule="evenodd"/);
+    assert.doesNotMatch(mark, /fill="#111"/);
   });
 });

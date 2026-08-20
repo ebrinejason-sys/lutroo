@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { ArrowDown } from 'lucide-react';
-import { contact, studio } from '@/lib/site';
+import { studio } from '@/lib/site';
 
 export default function Hero() {
   return (
@@ -19,9 +19,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/45 to-ink/85" />
 
       <div className="relative mx-auto w-full max-w-[1400px] px-6 pb-14 pt-32 md:px-10">
-        <p className="label animate-rise text-bone/80">
-          {studio.discipline} · {contact.location}
-        </p>
+        <p className="label animate-rise text-bone/80">{studio.promise}</p>
 
         <h1 className="animate-rise mt-6 max-w-5xl font-display text-[2.75rem] font-light leading-[1.05] text-bone sm:text-6xl lg:text-[5.25rem]">
           Every space has the ability to{' '}
@@ -30,9 +28,8 @@ export default function Hero() {
 
         <div className="mt-10 grid gap-10 border-t border-bone/20 pt-8 md:grid-cols-12">
           <p className="animate-rise max-w-readable text-sm leading-relaxed text-bone/90 md:col-span-6 lg:text-base">
-            We design wellness-focused interiors and landscapes that blend functionality,
-            aesthetics and emotional balance — environments that inspire calm, creativity and
-            connection.
+            We design wellness-focused spaces that blend functionality, aesthetics and
+            emotional balance — environments that inspire calm, creativity and connection.
           </p>
 
           <div className="animate-rise flex flex-wrap items-start gap-3 md:col-span-6 md:justify-end">
@@ -52,7 +49,7 @@ export default function Hero() {
         </div>
 
         <div className="mt-12 flex items-center justify-between border-t border-bone/20 pt-6">
-          <p className="label text-bone/70">{studio.tagline}</p>
+          <p className="font-script text-xl text-gold sm:text-2xl">{studio.tagline}</p>
           <a
             href="#studio"
             aria-label="Scroll to studio introduction"

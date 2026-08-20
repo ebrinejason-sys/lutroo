@@ -16,7 +16,7 @@ export default function Services() {
           <p className="label md:col-span-3">Services</p>
           <div className="md:col-span-9">
             <h2 className="font-display text-3xl font-light leading-[1.15] text-ink sm:text-4xl lg:text-5xl">
-              Five disciplines, one continuous conversation about how a space should feel.
+              A complete studio practice, held to one question: how should this space feel?
             </h2>
           </div>
         </header>

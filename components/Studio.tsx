@@ -38,7 +38,7 @@ export default function Studio() {
             <div className="mt-4 border-t border-linen pt-8">
               <p className="label">Our philosophy</p>
               <p className="mt-3 font-display text-3xl font-light italic text-ink sm:text-4xl">
-                Design, Innovate, Elevate.
+                {studio.tagline}
               </p>
             </div>
           </div>

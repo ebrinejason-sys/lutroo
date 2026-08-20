@@ -17,10 +17,12 @@ const config: Config = {
         forest: '#2F3A33',
         sage: '#8C9C8B',
         clay: '#A9724F',
+        gold: '#C9A36A',
       },
       fontFamily: {
         display: ['var(--font-display)', 'Georgia', 'serif'],
         sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
+        script: ['var(--font-script)', 'cursive'],
       },
       letterSpacing: {
         label: '0.22em',

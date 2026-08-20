@@ -1,3 +1,4 @@
+import Logo from '@/components/Logo';
 import { contact, navigation, services, studio } from '@/lib/site';
 
 export default function Footer() {
@@ -5,19 +6,14 @@ export default function Footer() {
     <footer className="bg-forest text-bone">
       <div className="mx-auto max-w-[1400px] px-6 py-20 md:px-10 md:py-24">
         <div className="grid gap-12 border-b border-bone/15 pb-16 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <p className="text-base font-medium uppercase tracking-[0.3em]">
-              Lutroo <span className="font-light opacity-70">Spaces</span>
-            </p>
-            <p className="mt-2 text-[10px] uppercase tracking-label text-sage">
-              {studio.tagline}
-            </p>
+          <div className="md:col-span-4">
+            <Logo className="text-bone" />
             <p className="mt-8 max-w-sm text-sm leading-relaxed text-bone/70">
               {studio.summary}
             </p>
           </div>
 
-          <nav className="md:col-span-3" aria-label="Footer">
+          <nav className="md:col-span-2" aria-label="Footer">
             <p className="label text-sage">Navigate</p>
             <ul className="mt-5 space-y-3">
               {navigation.map((item) => (
@@ -33,9 +29,9 @@ export default function Footer() {
             </ul>
           </nav>
 
-          <div className="md:col-span-2">
+          <div className="md:col-span-4">
             <p className="label text-sage">Services</p>
-            <ul className="mt-5 space-y-3">
+            <ul className="mt-5 grid gap-3 sm:grid-cols-2">
               {services.map((service) => (
                 <li key={service.id}>
                   <a

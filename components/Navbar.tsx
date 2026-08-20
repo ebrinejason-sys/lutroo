@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import Logo from '@/components/Logo';
 import { contact, navigation, studio } from '@/lib/site';
 
 export default function Navbar() {
@@ -54,7 +55,7 @@ export default function Navbar() {
         <div
           ref={barRef}
           className={`mx-auto flex max-w-[1400px] items-center justify-between px-6 transition-all duration-500 md:px-10 ${
-            solid ? 'py-4' : 'py-6'
+            solid ? 'py-3' : 'py-4'
           }`}
         >
           <a
@@ -62,12 +63,7 @@ export default function Navbar() {
             className={`transition-colors ${solid ? 'text-ink' : 'text-bone'}`}
             aria-label={`${studio.name} — home`}
           >
-            <span className="block text-sm font-medium uppercase tracking-[0.3em] sm:text-base">
-              Lutroo <span className="font-light opacity-70">Spaces</span>
-            </span>
-            <span className="mt-1 hidden text-[10px] uppercase tracking-label opacity-60 sm:block">
-              {studio.tagline}
-            </span>
+            <Logo variant="nav" />
           </a>
 
           <nav className="hidden items-center gap-9 lg:flex" aria-label="Primary">
