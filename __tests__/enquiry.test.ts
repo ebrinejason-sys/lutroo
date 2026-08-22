@@ -4,6 +4,7 @@ import {
   buildEnquiry,
   estimateTimeline,
   mailtoHref,
+  parseEnquiry,
   whatsappHref,
   type Brief,
 } from '../lib/enquiry';
@@ -86,5 +87,48 @@ describe('link builders', () => {
   test('whatsapp link strips non-digits from the studio number', () => {
     assert.equal(whatsappHref(), `https://wa.me/${contact.phone.replace(/\D/g, '')}`);
     assert.ok(whatsappHref(brief).includes('?text='));
+  });
+});
+
+describe('parseEnquiry', () => {
+  const valid = {
+    name: 'Amara Nabbosa',
+    email: 'Amara@Example.com',
+    spaceType: 'Interior Design',
+    services: ['Interior Design'],
+    message: 'We want the living room to feel calm.',
+    source: 'contact',
+  };
+
+  test('normalises a valid contact payload', () => {
+    const parsed = parseEnquiry(valid);
+    assert.equal(parsed.ok, true);
+    if (!parsed.ok || parsed.skipped) throw new Error('expected a brief');
+    assert.equal(parsed.source, 'contact');
+    assert.equal(parsed.brief.email, 'amara@example.com');
+    assert.equal(parsed.brief.name, 'Amara Nabbosa');
+  });
+
+  test('rejects a contact note that is too short', () => {
+    const parsed = parseEnquiry({ ...valid, message: 'Hi' });
+    assert.equal(parsed.ok, false);
+  });
+
+  test('allows a planner brief without notes', () => {
+    const parsed = parseEnquiry({ ...valid, source: 'planner', message: '' });
+    assert.equal(parsed.ok, true);
+    if (!parsed.ok || parsed.skipped) throw new Error('expected a brief');
+    assert.equal(parsed.source, 'planner');
+    assert.equal(parsed.brief.message, undefined);
+  });
+
+  test('swallows a filled honeypot as a silent success', () => {
+    const parsed = parseEnquiry({ ...valid, website: 'https://spam.test' });
+    assert.deepEqual(parsed, { ok: true, skipped: true });
+  });
+
+  test('rejects an invalid email', () => {
+    const parsed = parseEnquiry({ ...valid, email: 'not-an-email' });
+    assert.equal(parsed.ok, false);
   });
 });

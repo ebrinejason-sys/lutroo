@@ -2,16 +2,22 @@
 
 import { useState } from 'react';
 import { Check, ChevronDown, Clock, Mail, MapPin, Phone } from 'lucide-react';
+import { submitEnquiry } from '@/app/actions/enquiry';
 import { contact, faqs, services } from '@/lib/site';
-import { mailtoHref, whatsappHref } from '@/lib/enquiry';
+import { whatsappHref } from '@/lib/enquiry';
 
 export default function Contact() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [service, setService] = useState(services[0].title);
   const [message, setMessage] = useState('');
-  const [sent, setSent] = useState(false);
+  const [website, setWebsite] = useState('');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent'>('idle');
+  const [error, setError] = useState('');
   const [openFaq, setOpenFaq] = useState<number | null>(0);
+
+  const sent = status === 'sent';
+  const sending = status === 'sending';
 
   return (
     <section id="contact" className="bg-sand py-24 md:py-32">
@@ -76,12 +82,15 @@ export default function Contact() {
                   Thank you for reaching out
                 </h3>
                 <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-graphite">
-                  Your message has been prepared in your email app. If it didn&rsquo;t open, reach
-                  us directly at {contact.email} or {contact.phoneDisplay}.
+                  We have emailed a confirmation to you and passed your note to a senior designer.
+                  If anything is urgent, reach us at {contact.email} or {contact.phoneDisplay}.
                 </p>
                 <button
                   type="button"
-                  onClick={() => setSent(false)}
+                  onClick={() => {
+                    setStatus('idle');
+                    setError('');
+                  }}
                   className="mt-8 text-[11px] uppercase tracking-label text-graphite underline underline-offset-4 hover:text-ink"
                 >
                   Write another message
@@ -90,16 +99,29 @@ export default function Contact() {
             ) : (
               <form
                 className="space-y-6 border border-linen bg-bone p-6 sm:p-10"
-                onSubmit={(event) => {
+                onSubmit={async (event) => {
                   event.preventDefault();
-                  window.location.href = mailtoHref({
+                  setError('');
+                  setStatus('sending');
+                  const result = await submitEnquiry({
                     name,
                     email,
                     spaceType: service,
                     services: [service],
                     message,
+                    source: 'contact',
+                    website,
                   });
-                  setSent(true);
+                  if (result.ok) {
+                    setStatus('sent');
+                    setName('');
+                    setEmail('');
+                    setMessage('');
+                    setWebsite('');
+                    return;
+                  }
+                  setStatus('idle');
+                  setError(result.error);
                 }}
               >
                 <div className="grid gap-5 sm:grid-cols-2">
@@ -110,6 +132,8 @@ export default function Contact() {
                     <input
                       id="contact-name"
                       required
+                      minLength={2}
+                      maxLength={120}
                       autoComplete="name"
                       value={name}
                       onChange={(event) => setName(event.target.value)}
@@ -125,6 +149,7 @@ export default function Contact() {
                       type="email"
                       required
                       autoComplete="email"
+                      maxLength={254}
                       value={email}
                       onChange={(event) => setEmail(event.target.value)}
                       className="mt-2 w-full border border-linen bg-sand px-4 py-3 text-sm text-ink"
@@ -158,6 +183,8 @@ export default function Contact() {
                     id="contact-message"
                     rows={5}
                     required
+                    minLength={8}
+                    maxLength={4000}
                     value={message}
                     onChange={(event) => setMessage(event.target.value)}
                     placeholder="Tell us about the space, your timeline, and how you want it to feel…"
@@ -165,11 +192,30 @@ export default function Contact() {
                   />
                 </div>
 
+                <div className="sr-only" aria-hidden="true">
+                  <label htmlFor="contact-website">Website</label>
+                  <input
+                    id="contact-website"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(event) => setWebsite(event.target.value)}
+                  />
+                </div>
+
+                {error ? (
+                  <p role="alert" className="text-sm leading-relaxed text-clay">
+                    {error}
+                  </p>
+                ) : null}
+
                 <button
                   type="submit"
-                  className="w-full rounded-full bg-forest px-8 py-4 text-[11px] uppercase tracking-label text-bone transition-colors hover:bg-ink"
+                  disabled={sending}
+                  className="w-full rounded-full bg-forest px-8 py-4 text-[11px] uppercase tracking-label text-bone transition-colors hover:bg-ink disabled:cursor-wait disabled:opacity-70"
                 >
-                  Send message
+                  {sending ? 'Sending…' : 'Send message'}
                 </button>
               </form>
             )}

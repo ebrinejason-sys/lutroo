@@ -3,7 +3,8 @@
 import { useMemo, useState } from 'react';
 import { ArrowLeft, ArrowRight, Check, RotateCcw } from 'lucide-react';
 import { services, spaceTypes } from '@/lib/site';
-import { buildEnquiry, estimateTimeline, mailtoHref, whatsappHref, type Brief } from '@/lib/enquiry';
+import { submitEnquiry } from '@/app/actions/enquiry';
+import { buildEnquiry, estimateTimeline, whatsappHref, type Brief } from '@/lib/enquiry';
 
 const STEPS = ['Space', 'Scope', 'Details'] as const;
 
@@ -16,7 +17,10 @@ export default function Planner() {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
+  const [website, setWebsite] = useState('');
   const [sent, setSent] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
   const brief: Brief = useMemo(
     () => ({ name, email, phone, spaceType, areaSqm, services: selected, message }),
@@ -35,10 +39,13 @@ export default function Planner() {
   const reset = () => {
     setStep(0);
     setSent(false);
+    setSending(false);
+    setError('');
     setName('');
     setEmail('');
     setPhone('');
     setMessage('');
+    setWebsite('');
   };
 
   return (
@@ -181,10 +188,21 @@ export default function Planner() {
               {step === 2 && (
                 <form
                   className="animate-fade space-y-8"
-                  onSubmit={(event) => {
+                  onSubmit={async (event) => {
                     event.preventDefault();
-                    window.location.href = mailtoHref(brief);
-                    setSent(true);
+                    setError('');
+                    setSending(true);
+                    const result = await submitEnquiry({
+                      ...brief,
+                      source: 'planner',
+                      website,
+                    });
+                    setSending(false);
+                    if (result.ok) {
+                      setSent(true);
+                      return;
+                    }
+                    setError(result.error);
                   }}
                 >
                   <div>
@@ -269,11 +287,28 @@ export default function Planner() {
                     </button>
                     <button
                       type="submit"
-                      className="inline-flex items-center gap-2 rounded-full bg-forest px-8 py-4 text-[11px] uppercase tracking-label text-bone transition-colors hover:bg-ink"
+                      disabled={sending}
+                      className="inline-flex items-center gap-2 rounded-full bg-forest px-8 py-4 text-[11px] uppercase tracking-label text-bone transition-colors hover:bg-ink disabled:cursor-wait disabled:opacity-70"
                     >
-                      Send brief
+                      {sending ? 'Sending…' : 'Send brief'}
                       <ArrowRight className="h-4 w-4" />
                     </button>
+                  </div>
+                  {error ? (
+                    <p role="alert" className="text-sm leading-relaxed text-clay">
+                      {error}
+                    </p>
+                  ) : null}
+                  <div className="sr-only" aria-hidden="true">
+                    <label htmlFor="planner-website">Website</label>
+                    <input
+                      id="planner-website"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      value={website}
+                      onChange={(event) => setWebsite(event.target.value)}
+                    />
                   </div>
                 </form>
               )}
@@ -351,10 +386,10 @@ function Confirmation({ brief, onReset }: { brief: Brief; onReset: () => void })
         <Check className="h-6 w-6" />
       </div>
 
-      <h3 className="mt-8 font-display text-3xl font-light text-ink">Your brief is ready</h3>
+      <h3 className="mt-8 font-display text-3xl font-light text-ink">Your brief is with us</h3>
       <p className="mx-auto mt-4 max-w-md text-sm leading-relaxed text-graphite">
-        We&rsquo;ve opened an email addressed to the studio with your brief attached. If your mail
-        app didn&rsquo;t open, send it over WhatsApp instead — we reply to both within a day.
+        We have emailed a confirmation to you and passed this brief to a senior designer. If
+        anything is urgent, send it over WhatsApp — we reply to both within a day.
       </p>
 
       <div className="mt-8 flex flex-wrap justify-center gap-3">
