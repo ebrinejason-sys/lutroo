@@ -18,12 +18,10 @@ const config: Config = {
         sage: '#8C9C8B',
         clay: '#A9724F',
         gold: '#C9A36A',
-        cream: '#E8D9B6',
       },
       fontFamily: {
-        display: ['var(--font-display)', 'Georgia', 'serif'],
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        script: ['var(--font-script)', 'cursive'],
+        display: ['var(--font-serif)', 'Georgia', 'serif'],
+        sans: ['var(--font-serif)', 'Georgia', 'serif'],
       },
       letterSpacing: {
         label: '0.22em',

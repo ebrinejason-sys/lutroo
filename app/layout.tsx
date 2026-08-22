@@ -1,41 +1,31 @@
 import type { Metadata, Viewport } from 'next';
-import { Cormorant_Garamond, Great_Vibes, Inter } from 'next/font/google';
+import { Cormorant_Garamond } from 'next/font/google';
 import Intro from '@/components/Intro';
 import { contact, studio } from '@/lib/site';
 import './globals.css';
 
-const display = Cormorant_Garamond({
+const serif = Cormorant_Garamond({
   subsets: ['latin'],
-  weight: ['300', '400', '500', '600'],
-  variable: '--font-display',
-  display: 'swap',
-});
-
-const sans = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-});
-
-const script = Great_Vibes({
-  subsets: ['latin'],
-  weight: '400',
-  variable: '--font-script',
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-serif',
   display: 'swap',
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL(studio.url),
   title: {
-    default: `${studio.name} — Wellness-Focused Interior & Landscape Design`,
+    default: `${studio.name} — Wellness-Focused Spatial Design`,
     template: `%s — ${studio.name}`,
   },
   description: studio.summary,
   keywords: [
+    'spatial design',
     'interior design',
-    'landscape design',
-    'spatial planning',
-    'brand space design',
+    'landscaping',
+    'architectural drawings',
+    'renovation',
+    'site supervision',
+    'design consultation',
     'wellness design',
     'Kampala',
     'Uganda',
@@ -44,12 +34,12 @@ export const metadata: Metadata = {
     type: 'website',
     url: studio.url,
     siteName: studio.name,
-    title: `${studio.name} — Wellness-Focused Interior & Landscape Design`,
+    title: `${studio.name} — Wellness-Focused Spatial Design`,
     description: studio.summary,
   },
   twitter: {
     card: 'summary_large_image',
-    title: `${studio.name} — Wellness-Focused Interior & Landscape Design`,
+    title: `${studio.name} — Wellness-Focused Spatial Design`,
     description: studio.summary,
   },
   alternates: { canonical: '/' },
@@ -80,7 +70,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable} ${script.variable} scroll-smooth`}>
+    <html lang="en" className={`${serif.variable} scroll-smooth`}>
       <body>
         <a
           href="#main"

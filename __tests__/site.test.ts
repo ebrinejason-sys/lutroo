@@ -14,26 +14,30 @@ import {
 
 describe('contact details', () => {
   test('match the details the studio published', () => {
-    assert.equal(contact.phone, '+256770745645');
+    assert.equal(contact.phoneDisplay, '0770745645');
+    assert.equal(contact.phone, `+256${contact.phoneDisplay.slice(1)}`);
     assert.equal(contact.email, 'lutroospaces@gmail.com');
-    assert.equal(contact.phone, `+256${'0770745645'.slice(1)}`);
   });
 
-  test('the display number is the same number, just spaced', () => {
-    assert.equal(contact.phoneDisplay.replace(/\s/g, ''), contact.phone);
+  test('call and WhatsApp links use the international form of that number', () => {
+    assert.equal(contact.phone, '+256770745645');
   });
 });
 
 describe('services', () => {
-  test('cover the five published offerings', () => {
+  test('cover the published offerings', () => {
     assert.deepEqual(
       services.map((service) => service.title),
       [
         'Interior Design',
-        'Landscape Planning',
+        'Landscaping',
         'Spatial Optimization',
         'Brand Space Design',
         'Site Visits',
+        'Architectural Drawings',
+        'Renovation and Revamping',
+        'Site Supervision',
+        'Design Consultation',
       ]
     );
   });
@@ -123,7 +127,42 @@ describe('content completeness', () => {
   test('the studio summary keeps the published positioning', () => {
     assert.match(studio.summary, /multidisciplinary design studio/i);
     assert.match(studio.summary, /wellness-focused/i);
+    assert.match(studio.summary, /create spaces that inspire/i);
     assert.equal(studio.tagline, 'Design. Refine. Elevate.');
-    assert.doesNotMatch(studio.tagline, /innovate/i);
+    assert.equal(studio.promise, 'Elevating spaces into their truest potential');
+    assert.doesNotMatch(studio.summary, /interiors and landscapes/i);
+  });
+
+  test('the hero speaks about spaces and the studio promise', () => {
+    const hero = readFileSync(new URL('../components/Hero.tsx', import.meta.url), 'utf8');
+    assert.match(hero, /wellness-focused spaces that blend/);
+    assert.ok(!hero.includes('interiors and landscapes'));
+    assert.match(hero, /studio\.promise/);
+    assert.doesNotMatch(hero, /italic/);
+    assert.doesNotMatch(hero, /<em /);
+  });
+
+  test('the brand mark knocks the window out instead of filling it black', () => {
+    const mark = readFileSync(new URL('../components/BrandMark.tsx', import.meta.url), 'utf8');
+    assert.match(mark, /fillRule="evenodd"/);
+    assert.doesNotMatch(mark, /fill="#111"/);
+  });
+
+  test('type is one upright serif with no italic or script faces', () => {
+    const layout = readFileSync(new URL('../app/layout.tsx', import.meta.url), 'utf8');
+    assert.match(layout, /Cormorant_Garamond/);
+    assert.doesNotMatch(layout, /Great_Vibes|Inter/);
+    const markup = readdirSync(new URL('../components', import.meta.url))
+      .map((file) => readFileSync(new URL(`../components/${file}`, import.meta.url), 'utf8'))
+      .join('\n');
+    assert.doesNotMatch(markup, /font-script|[\s"'`]italic[\s"'`]/);
+  });
+
+  test('the Mukono estate is in the selected work with a gallery', () => {
+    const mukono = projects.find((project) => project.id === 'mukono-estate');
+    assert.ok(mukono);
+    assert.equal(mukono?.title, 'A Private Estate in Mukono');
+    assert.equal(mukono?.location, 'Private estate, Mukono');
+    assert.ok(mukono?.gallery && mukono.gallery.length === 3);
   });
 });

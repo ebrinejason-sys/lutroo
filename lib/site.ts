@@ -1,16 +1,17 @@
 export const studio = {
   name: 'Lutroo Spaces',
   tagline: 'Design. Refine. Elevate.',
+  promise: 'Elevating spaces into their truest potential',
   discipline: 'Multidisciplinary Design Studio',
   summary:
-    'Lutroo Spaces is a multidisciplinary design studio redefining how people experience space. We specialise in wellness-focused environments, blending functionality, aesthetics, and emotional balance to create interiors that inspire calm, creativity, and connection.',
+    'Lutroo Spaces is a multidisciplinary design studio redefining how people experience space. We specialise in wellness-focused environments, blending functionality, aesthetics, and emotional balance to create spaces that inspire calm, creativity, and connection.',
   url: 'https://lutroospaces.com',
 } as const;
 
 export const contact = {
-  /** Raw digits, used for tel: and wa.me links. */
+  /** International form for tel: and wa.me. Displayed as 0770745645. */
   phone: '+256770745645',
-  phoneDisplay: '+256 770 745 645',
+  phoneDisplay: '0770745645',
   email: 'lutroospaces@gmail.com',
   hours: 'Monday – Saturday, 8:00 – 18:00',
   location: 'Kampala, Uganda',
@@ -55,9 +56,9 @@ export const services: readonly Service[] = [
       'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80',
   },
   {
-    id: 'landscape-planning',
+    id: 'landscaping',
     index: '02',
-    title: 'Landscape Planning',
+    title: 'Landscaping',
     description:
       'Sustainable outdoor designs integrating native plants and natural materials.',
     detail:
@@ -121,6 +122,74 @@ export const services: readonly Service[] = [
     image:
       'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80',
   },
+  {
+    id: 'architectural-drawings',
+    index: '06',
+    title: 'Architectural Drawings',
+    description:
+      'Measured plans, sections and working drawings that take a concept through to a buildable document set.',
+    detail:
+      'A beautiful idea is not enough if it cannot be built. We produce the plans, sections, elevations and details a contractor can price and follow, so the space on site matches the space we agreed in the studio.',
+    deliverables: [
+      'Measured survey of the existing space',
+      'Plans, sections and elevations',
+      'Working drawings and construction details',
+      'Finish, joinery and lighting schedules',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1503387837-b154d5074bd2?auto=format&fit=crop&w=1600&q=80',
+  },
+  {
+    id: 'renovation-and-revamping',
+    index: '07',
+    title: 'Renovation and Revamping',
+    description:
+      'Thoughtful updates that restore existing rooms without losing what already works.',
+    detail:
+      'Most good spaces do not need to be started again. We read the structure, light and circulation that are already there, then rewrite the finishes, joinery and layout so the room feels current, calm and entirely itself.',
+    deliverables: [
+      'Existing-condition survey and constraints',
+      'Phased renovation plan',
+      'Joinery, finish and lighting refresh',
+      'Styling and final dressing',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1484154216542-aade61781cc9?auto=format&fit=crop&w=1600&q=80',
+  },
+  {
+    id: 'site-supervision',
+    index: '08',
+    title: 'Site Supervision',
+    description:
+      'On-site coordination so the space that gets built is the space that was drawn.',
+    detail:
+      'Drawings only hold if someone is there to protect them. We attend the site at key stages, coordinate contractors, and catch substitutions before they become permanent, so the finished room is the one that was promised.',
+    deliverables: [
+      'Scheduled site inspections',
+      'Contractor coordination and queries',
+      'Quality and finish reviews',
+      'Snagging and handover notes',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=80',
+  },
+  {
+    id: 'design-consultation',
+    index: '09',
+    title: 'Design Consultation',
+    description:
+      'A focused session to clarify direction, priorities and the next right move for the space.',
+    detail:
+      'Sometimes you need a clear point of view more than a full commission. We sit with the brief, the site and the constraints, then leave you with a written direction you can act on — with us, or with your own team.',
+    deliverables: [
+      'Studio or on-site consultation',
+      'Written design direction',
+      'Material and palette guidance',
+      'Prioritised next-step plan',
+    ],
+    image:
+      'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1600&q=80',
+  },
 ] as const;
 
 export const pillars = [
@@ -171,9 +240,31 @@ export type Project = {
   description: string;
   highlights: readonly string[];
   image: string;
+  gallery?: readonly string[];
 };
 
 export const projects: readonly Project[] = [
+  {
+    id: 'mukono-estate',
+    title: 'A Private Estate in Mukono',
+    category: 'Residential',
+    location: 'Private estate, Mukono',
+    year: '2026',
+    statement: 'Warm light, quiet rooms',
+    description:
+      'A private residence in Mukono composed around rest. Afternoon sun, herringbone timber and a restrained palette of cream, oak and burnt orange settle the bedrooms; a dressing room of fluted glass and custom joinery is built as a piece of furniture rather than a cupboard.',
+    highlights: [
+      'Custom fluted-glass wardrobe',
+      'Herringbone timber floors',
+      'Layered warm lighting',
+    ],
+    image: '/work/mukono-bedroom.jpg',
+    gallery: [
+      '/work/mukono-bedroom.jpg',
+      '/work/mukono-wardrobe.jpg',
+      '/work/mukono-suite.jpg',
+    ],
+  },
   {
     id: 'nsimbi-house',
     title: 'Nsimbi House',
