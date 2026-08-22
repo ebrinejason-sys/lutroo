@@ -25,8 +25,8 @@ export default async function OpengraphImage() {
         <img
           src={`data:image/png;base64,${logo.toString('base64')}`}
           alt=""
-          width={420}
-          height={504}
+          width={480}
+          height={317}
         />
       </div>
     ),
