@@ -20,9 +20,8 @@ const config: Config = {
         gold: '#C9A36A',
       },
       fontFamily: {
-        display: ['var(--font-display)', 'Georgia', 'serif'],
-        sans: ['var(--font-sans)', 'system-ui', 'sans-serif'],
-        script: ['var(--font-script)', 'cursive'],
+        display: ['var(--font-serif)', 'Georgia', 'serif'],
+        sans: ['var(--font-serif)', 'Georgia', 'serif'],
       },
       letterSpacing: {
         label: '0.22em',

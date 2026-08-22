@@ -2,14 +2,14 @@ import BrandMark from '@/components/BrandMark';
 import { studio } from '@/lib/site';
 
 type LogoProps = {
-  /** Horizontal lockup for the header; stacked lockup for footer and splash. */
+  /** Horizontal lockup for the header; stacked lockup for the footer. */
   variant?: 'full' | 'nav';
   className?: string;
 };
 
 /**
- * Brand lockup built from the official house-and-tree mark.
- * Vector, not a raster on black, so it stays sharp and background-free.
+ * Brand lockup from the official SVG mark. Wordmark and tagline share the
+ * site serif so the header, footer and hero read as one type family.
  */
 export default function Logo({ variant = 'full', className = '' }: LogoProps) {
   if (variant === 'nav') {
@@ -29,7 +29,11 @@ export default function Logo({ variant = 'full', className = '' }: LogoProps) {
       <p className="mt-4 font-display text-lg font-medium uppercase leading-none tracking-[0.28em]">
         Lutroo Spaces
       </p>
-      <p className="mt-3 font-script text-xl text-gold">{studio.tagline}</p>
+      <p className="mt-3 flex items-center gap-3 text-gold">
+        <span className="hidden h-px w-8 bg-gold sm:block" />
+        <span className="font-display text-lg">{studio.tagline}</span>
+        <span className="hidden h-px w-8 bg-gold sm:block" />
+      </p>
     </div>
   );
 }

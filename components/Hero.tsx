@@ -22,8 +22,7 @@ export default function Hero() {
         <p className="label animate-rise text-bone/80">{studio.promise}</p>
 
         <h1 className="animate-rise mt-6 max-w-5xl font-display text-[2.75rem] font-light leading-[1.05] text-bone sm:text-6xl lg:text-[5.25rem]">
-          Every space has the ability to{' '}
-          <em className="font-normal italic text-sand">affect the mind.</em>
+          Every space has the ability to affect the mind.
         </h1>
 
         <div className="mt-10 grid gap-10 border-t border-bone/20 pt-8 md:grid-cols-12">
@@ -49,7 +48,7 @@ export default function Hero() {
         </div>
 
         <div className="mt-12 flex items-center justify-between border-t border-bone/20 pt-6">
-          <p className="font-script text-xl text-gold sm:text-2xl">{studio.tagline}</p>
+          <p className="font-display text-xl text-gold sm:text-2xl">{studio.tagline}</p>
           <a
             href="#studio"
             aria-label="Scroll to studio introduction"

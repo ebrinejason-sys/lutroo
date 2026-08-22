@@ -9,9 +9,9 @@ export const studio = {
 } as const;
 
 export const contact = {
-  /** Raw digits, used for tel: and wa.me links. */
-  phone: '+25670745645',
-  phoneDisplay: '+256 707 456 45',
+  /** International form for tel: and wa.me. Displayed as 0770745645. */
+  phone: '+256770745645',
+  phoneDisplay: '0770745645',
   email: 'lutroospaces@gmail.com',
   hours: 'Monday – Saturday, 8:00 – 18:00',
   location: 'Kampala, Uganda',
@@ -240,9 +240,31 @@ export type Project = {
   description: string;
   highlights: readonly string[];
   image: string;
+  gallery?: readonly string[];
 };
 
 export const projects: readonly Project[] = [
+  {
+    id: 'mukono-estate',
+    title: 'A Private Estate in Mukono',
+    category: 'Residential',
+    location: 'Private estate, Mukono',
+    year: '2026',
+    statement: 'Warm light, quiet rooms',
+    description:
+      'A private residence in Mukono composed around rest. Afternoon sun, herringbone timber and a restrained palette of cream, oak and burnt orange settle the bedrooms; a dressing room of fluted glass and custom joinery is built as a piece of furniture rather than a cupboard.',
+    highlights: [
+      'Custom fluted-glass wardrobe',
+      'Herringbone timber floors',
+      'Layered warm lighting',
+    ],
+    image: '/work/mukono-bedroom.jpg',
+    gallery: [
+      '/work/mukono-bedroom.jpg',
+      '/work/mukono-wardrobe.jpg',
+      '/work/mukono-suite.jpg',
+    ],
+  },
   {
     id: 'nsimbi-house',
     title: 'Nsimbi House',

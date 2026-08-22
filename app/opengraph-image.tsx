@@ -36,7 +36,7 @@ export default function OpengraphImage() {
           <div style={{ fontSize: 76, lineHeight: 1.1, maxWidth: 900 }}>
             Every space has the ability to affect the mind.
           </div>
-          <div style={{ fontSize: 28, color: 'rgba(252, 251, 248, 0.75)', fontStyle: 'italic' }}>
+          <div style={{ fontSize: 28, color: 'rgba(252, 251, 248, 0.75)' }}>
             {studio.promise}
           </div>
         </div>

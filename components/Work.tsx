@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { projectCategories, projects } from '@/lib/site';
+import { projectCategories, projects, type Project } from '@/lib/site';
 
 export default function Work() {
   const [filter, setFilter] = useState<(typeof projectCategories)[number]>('All');
@@ -44,19 +44,10 @@ export default function Work() {
               key={project.id}
               className="animate-fade grid gap-8 md:grid-cols-12 md:items-center md:gap-16"
             >
-              <div
-                className={`relative aspect-[4/3] w-full overflow-hidden bg-linen md:col-span-7 ${
-                  index % 2 === 1 ? 'md:order-2' : ''
-                }`}
-              >
-                <Image
-                  src={project.image}
-                  alt={`${project.title} — ${project.description}`}
-                  fill
-                  sizes="(min-width: 768px) 58vw, 100vw"
-                  className="object-cover transition-transform duration-[1200ms] ease-out hover:scale-105"
-                />
-              </div>
+              <ProjectMedia
+                project={project}
+                className={`md:col-span-7 ${index % 2 === 1 ? 'md:order-2' : ''}`}
+              />
 
               <div className="md:col-span-5">
                 <p className="label">
@@ -65,7 +56,7 @@ export default function Work() {
                 <h3 className="mt-4 font-display text-3xl font-light text-ink sm:text-4xl">
                   {project.title}
                 </h3>
-                <p className="mt-2 font-display text-xl font-light italic text-clay">
+                <p className="mt-2 font-display text-xl font-light text-clay">
                   {project.statement}
                 </p>
                 <p className="mt-5 max-w-readable text-sm leading-relaxed text-graphite">
@@ -92,5 +83,46 @@ export default function Work() {
         </div>
       </div>
     </section>
+  );
+}
+
+function ProjectMedia({ project, className }: { project: Project; className?: string }) {
+  const shots = project.gallery ?? [project.image];
+  const [active, setActive] = useState(shots[0]);
+
+  return (
+    <div className={className}>
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-linen">
+        <Image
+          key={active}
+          src={active}
+          alt={`${project.title} — ${project.description}`}
+          fill
+          sizes="(min-width: 768px) 58vw, 100vw"
+          className="animate-fade object-cover"
+        />
+      </div>
+      {shots.length > 1 && (
+        <div className="mt-3 grid grid-cols-3 gap-3">
+          {shots.map((src, index) => {
+            const isActive = src === active;
+            return (
+              <button
+                key={src}
+                type="button"
+                onClick={() => setActive(src)}
+                aria-pressed={isActive}
+                aria-label={`View image ${index + 1} of ${project.title}`}
+                className={`relative aspect-[4/3] overflow-hidden bg-linen ${
+                  isActive ? 'ring-1 ring-ink' : 'opacity-70 hover:opacity-100'
+                }`}
+              >
+                <Image src={src} alt="" fill sizes="18vw" className="object-cover" />
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
   );
 }

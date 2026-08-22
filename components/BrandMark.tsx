@@ -1,39 +1,10 @@
-const LEAVES = [
-  { x: 152, y: 36, s: 1.15, r: -6, tone: 'mid' },
-  { x: 168, y: 44, s: 1, r: 28, tone: 'light' },
-  { x: 136, y: 46, s: 0.98, r: -38, tone: 'light' },
-  { x: 154, y: 52, s: 1.2, r: 8, tone: 'dark' },
-  { x: 174, y: 58, s: 0.82, r: 48, tone: 'mid' },
-  { x: 132, y: 60, s: 0.78, r: -58, tone: 'mid' },
-  { x: 158, y: 26, s: 0.82, r: 14, tone: 'light' },
-  { x: 142, y: 28, s: 0.78, r: -24, tone: 'mid' },
-  { x: 166, y: 66, s: 0.72, r: 22, tone: 'dark' },
-  { x: 140, y: 68, s: 0.7, r: -18, tone: 'light' },
-] as const;
-
 /**
- * Official Lutroo mark: gold gable and four-pane window on the left,
- * green tree and ground on the right, split by a centre rule.
- *
- * The window is a true knockout (not a black square) so the mark stays
- * clean on both dark photography and the light scrolled header.
- * The rule uses currentColor so it follows the surrounding type.
+ * Official Lutroo house-and-tree mark.
+ * Sourced from the studio SVG: gold gable and four-pane window on the left,
+ * green tree and ground on the right. The centre rule uses currentColor so
+ * it holds on both the dark hero and the light scrolled header.
  */
-export default function BrandMark({
-  className,
-  variant = 'color',
-}: {
-  className?: string;
-  variant?: 'color' | 'mono';
-}) {
-  const mono = variant === 'mono';
-  const gold = mono ? 'currentColor' : '#C9A36A';
-  const leaf = mono ? 'currentColor' : '#4F7F3C';
-  const leafLight = mono ? 'currentColor' : '#6B9B4A';
-  const leafDark = mono ? 'currentColor' : '#3E6B3A';
-  const trunk = mono ? 'currentColor' : '#2F4F2C';
-  const ground = mono ? 'currentColor' : '#3E6B3A';
-
+export default function BrandMark({ className }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 200 140"
@@ -43,17 +14,16 @@ export default function BrandMark({
       aria-hidden
     >
       <path
-        fill={gold}
+        fill="#C9A36A"
         fillRule="evenodd"
         d="M18 122 58 18l40 104H18Zm30-48h20v20H48V74Z"
       />
       <path
         d="M58 74v20M48 84h20"
-        stroke={gold}
+        stroke="#C9A36A"
         strokeWidth="1.8"
         strokeLinecap="square"
       />
-
       <line
         x1="100"
         y1="16"
@@ -61,27 +31,26 @@ export default function BrandMark({
         y2="124"
         stroke="currentColor"
         strokeWidth="1.15"
-        opacity="0.85"
       />
-
-      {LEAVES.map((item) => (
-        <path
-          key={`${item.x}-${item.y}-${item.r}`}
-          d="M0 -14C6 -8 8 2 0 18C-8 2 -6 -8 0 -14Z"
-          fill={item.tone === 'light' ? leafLight : item.tone === 'dark' ? leafDark : leaf}
-          transform={`translate(${item.x} ${item.y}) rotate(${item.r}) scale(${item.s})`}
-        />
-      ))}
-      <rect x="149" y="78" width="6" height="32" rx="1.6" fill={trunk} />
+      <path
+        fill="#4F7F3C"
+        d="M152 22c8-1 18 5 22 14 9 2 16 12 14 23 5 8 1 18-9 24H125c-10-6-14-16-9-24-2-11 5-21 14-23 4-9 14-15 22-14Z"
+      />
+      <path
+        fill="#6B9B4A"
+        opacity=".9"
+        d="M136 48c6-10 16-16 26-14 4-7 12-11 20-10 7 1 14 7 16 14 6 2 10 9 8 16-2 6-8 10-14 11H128c-7-2-12-8-10-15 1-6 6-10 12-12 2-4 5-7 6-4Z"
+      />
+      <rect x="149" y="78" width="6" height="32" rx="1.6" fill="#2F4F2C" />
       <path
         d="M122 116c14-9 24-11 34-11s22 2 36 11"
-        stroke={ground}
+        stroke="#3E6B3A"
         strokeWidth="1.7"
         strokeLinecap="round"
       />
       <path
         d="M128 124c12-6 20-8 28-8s18 2 30 8"
-        stroke={ground}
+        stroke="#3E6B3A"
         strokeWidth="1.45"
         strokeLinecap="round"
       />
