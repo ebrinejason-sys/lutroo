@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { projectCategories, projects, type Project } from '@/lib/site';
 
 export default function Work() {
@@ -88,7 +89,13 @@ export default function Work() {
 
 function ProjectMedia({ project, className }: { project: Project; className?: string }) {
   const shots = project.gallery ?? [project.image];
-  const [active, setActive] = useState(shots[0]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const active = shots[activeIndex];
+  const dense = shots.length > 4;
+
+  const show = (index: number) => {
+    setActiveIndex((index + shots.length) % shots.length);
+  };
 
   return (
     <div className={className}>
@@ -96,26 +103,55 @@ function ProjectMedia({ project, className }: { project: Project; className?: st
         <Image
           key={active}
           src={active}
-          alt={`${project.title} — ${project.description}`}
+          alt={`${project.title} — view ${activeIndex + 1} of ${shots.length}`}
           fill
           sizes="(min-width: 768px) 58vw, 100vw"
           className="animate-fade object-cover"
         />
+        {shots.length > 1 && (
+          <>
+            <button
+              type="button"
+              onClick={() => show(activeIndex - 1)}
+              aria-label={`Previous image of ${project.title}`}
+              className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-bone/85 text-ink backdrop-blur-sm transition-colors hover:bg-bone"
+            >
+              <ChevronLeft className="h-4 w-4" strokeWidth={1.5} />
+            </button>
+            <button
+              type="button"
+              onClick={() => show(activeIndex + 1)}
+              aria-label={`Next image of ${project.title}`}
+              className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-bone/85 text-ink backdrop-blur-sm transition-colors hover:bg-bone"
+            >
+              <ChevronRight className="h-4 w-4" strokeWidth={1.5} />
+            </button>
+            <p className="absolute bottom-3 right-3 rounded-full bg-ink/70 px-3 py-1 text-[10px] uppercase tracking-label text-bone backdrop-blur-sm">
+              {activeIndex + 1} / {shots.length}
+            </p>
+          </>
+        )}
       </div>
       {shots.length > 1 && (
-        <div className="mt-3 grid grid-cols-3 gap-3">
+        <div
+          className={
+            dense
+              ? 'mt-3 flex gap-2 overflow-x-auto no-scrollbar sm:grid sm:grid-cols-5 sm:overflow-visible'
+              : 'mt-3 grid grid-cols-3 gap-3'
+          }
+        >
           {shots.map((src, index) => {
-            const isActive = src === active;
+            const isActive = index === activeIndex;
             return (
               <button
                 key={src}
                 type="button"
-                onClick={() => setActive(src)}
+                onClick={() => setActiveIndex(index)}
                 aria-pressed={isActive}
                 aria-label={`View image ${index + 1} of ${project.title}`}
                 className={`relative aspect-[4/3] overflow-hidden bg-linen ${
-                  isActive ? 'ring-1 ring-ink' : 'opacity-70 hover:opacity-100'
-                }`}
+                  dense ? 'w-[4.5rem] shrink-0 sm:w-auto' : ''
+                } ${isActive ? 'ring-1 ring-ink' : 'opacity-70 hover:opacity-100'}`}
               >
                 <Image src={src} alt="" fill sizes="18vw" className="object-cover" />
               </button>

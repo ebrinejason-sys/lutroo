@@ -266,6 +266,33 @@ export const projects: readonly Project[] = [
     ],
   },
   {
+    id: 'landscape-project-2024',
+    title: 'Landscape Project 2024',
+    category: 'Landscape',
+    location: 'Private residence',
+    year: '2024',
+    statement: 'The garden as a second living room',
+    description:
+      'A two-storey house organised around lawn, stone paths and a timber pergola. Parking sits below a lit retaining wall; a xeriscape of agave, cactus and river stone runs the side garden; a children\'s play structure sits beside the outdoor lounge. At night, warm light under eaves, steps and walls carries the same rooms outdoors.',
+    highlights: [
+      'Timber pergola and outdoor lounge',
+      'Lit parking court and garden stairs',
+      'Night lighting through lawn and wall',
+    ],
+    image: '/work/landscape-2024-overview.jpg',
+    gallery: [
+      '/work/landscape-2024-overview.jpg',
+      '/work/landscape-2024-parking.jpg',
+      '/work/landscape-2024-pergola.jpg',
+      '/work/landscape-2024-play.jpg',
+      '/work/landscape-2024-path.jpg',
+      '/work/landscape-2024-side-garden.jpg',
+      '/work/landscape-2024-twilight.jpg',
+      '/work/landscape-2024-night.jpg',
+      '/work/landscape-2024-entrance-night.jpg',
+    ],
+  },
+  {
     id: 'nsimbi-house',
     title: 'Nsimbi House',
     category: 'Residential',

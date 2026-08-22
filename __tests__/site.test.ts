@@ -165,4 +165,16 @@ describe('content completeness', () => {
     assert.equal(mukono?.location, 'Private estate, Mukono');
     assert.ok(mukono?.gallery && mukono.gallery.length === 3);
   });
+
+  test('Landscape Project 2024 is in the selected work with a gallery', () => {
+    const landscape = projects.find((project) => project.id === 'landscape-project-2024');
+    assert.ok(landscape);
+    assert.equal(landscape?.title, 'Landscape Project 2024');
+    assert.equal(landscape?.category, 'Landscape');
+    assert.equal(landscape?.year, '2024');
+    assert.ok(landscape?.gallery && landscape.gallery.length === 9);
+    for (const src of landscape?.gallery ?? []) {
+      assert.ok(existsSync(new URL(`../public${src}`, import.meta.url)), `missing ${src}`);
+    }
+  });
 });
