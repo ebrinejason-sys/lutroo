@@ -13,6 +13,8 @@ export const contact = {
   phone: '+256770745645',
   phoneDisplay: '0770745645',
   email: 'lutroospaces@gmail.com',
+  /** Verified Resend sending address on lutroospaces.com. Incoming mail still arrives at `email`. */
+  fromEmail: 'hello@lutroospaces.com',
   hours: 'Monday – Saturday, 8:00 – 18:00',
   location: 'Kampala, Uganda',
 } as const;

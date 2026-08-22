@@ -17,6 +17,7 @@ describe('contact details', () => {
     assert.equal(contact.phoneDisplay, '0770745645');
     assert.equal(contact.phone, `+256${contact.phoneDisplay.slice(1)}`);
     assert.equal(contact.email, 'lutroospaces@gmail.com');
+    assert.equal(contact.fromEmail, 'hello@lutroospaces.com');
   });
 
   test('call and WhatsApp links use the international form of that number', () => {
@@ -140,6 +141,15 @@ describe('content completeness', () => {
     assert.match(hero, /studio\.promise/);
     assert.doesNotMatch(hero, /italic/);
     assert.doesNotMatch(hero, /<em /);
+  });
+
+  test('enquiries are sent through Resend instead of a mailto draft', () => {
+    const contactForm = readFileSync(new URL('../components/Contact.tsx', import.meta.url), 'utf8');
+    const planner = readFileSync(new URL('../components/Planner.tsx', import.meta.url), 'utf8');
+    assert.match(contactForm, /submitEnquiry/);
+    assert.match(planner, /submitEnquiry/);
+    assert.doesNotMatch(contactForm, /mailtoHref/);
+    assert.doesNotMatch(planner, /mailtoHref/);
   });
 
   test('the official lockup is the uploaded logo image', () => {
