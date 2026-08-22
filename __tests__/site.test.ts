@@ -145,7 +145,17 @@ describe('content completeness', () => {
   test('the official lockup is the uploaded logo image', () => {
     const logo = readFileSync(new URL('../components/Logo.tsx', import.meta.url), 'utf8');
     assert.match(logo, /src="\/logo\.png"/);
+    assert.match(logo, /src="\/logo-mark\.png"/);
     assert.ok(existsSync(new URL('../public/logo.png', import.meta.url)));
+    assert.ok(existsSync(new URL('../public/logo-mark.png', import.meta.url)));
+  });
+
+  test('the header uses a compact lockup without a dark chip', () => {
+    const logo = readFileSync(new URL('../components/Logo.tsx', import.meta.url), 'utf8');
+    const nav = readFileSync(new URL('../components/Navbar.tsx', import.meta.url), 'utf8');
+    assert.match(logo, /variant === 'nav'/);
+    assert.match(logo, /Lutroo Spaces/);
+    assert.doesNotMatch(nav, /bg-ink px-2/);
   });
 
   test('type is one upright serif with no italic or script faces', () => {
