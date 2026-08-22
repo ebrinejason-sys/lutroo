@@ -1,11 +1,15 @@
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
 import { ImageResponse } from 'next/og';
 import { studio } from '@/lib/site';
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
-export const alt = `${studio.name} — ${studio.discipline}`;
+export const alt = `${studio.name} — ${studio.tagline}`;
 
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
+  const logo = await readFile(join(process.cwd(), 'public/logo.png'));
+
   return new ImageResponse(
     (
       <div
@@ -13,44 +17,17 @@ export default function OpengraphImage() {
           width: '100%',
           height: '100%',
           display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          background: '#2F3A33',
-          color: '#FCFBF8',
-          padding: '80px',
-          fontFamily: 'Georgia, serif',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: '#000000',
         }}
       >
-        <div
-          style={{
-            fontSize: 24,
-            letterSpacing: '0.3em',
-            textTransform: 'uppercase',
-            color: '#8C9C8B',
-          }}
-        >
-          Lutroo Spaces
-        </div>
-
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-          <div style={{ fontSize: 76, lineHeight: 1.1, maxWidth: 900 }}>
-            Every space has the ability to affect the mind.
-          </div>
-          <div style={{ fontSize: 28, color: 'rgba(252, 251, 248, 0.75)' }}>
-            {studio.promise}
-          </div>
-        </div>
-
-        <div
-          style={{
-            fontSize: 20,
-            letterSpacing: '0.22em',
-            textTransform: 'uppercase',
-            color: '#8C9C8B',
-          }}
-        >
-          {studio.tagline}
-        </div>
+        <img
+          src={`data:image/png;base64,${logo.toString('base64')}`}
+          alt=""
+          width={420}
+          height={504}
+        />
       </div>
     ),
     size

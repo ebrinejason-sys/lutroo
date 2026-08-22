@@ -60,7 +60,9 @@ export default function Navbar() {
         >
           <a
             href="#top"
-            className={`transition-colors ${solid ? 'text-ink' : 'text-bone'}`}
+            className={`transition-colors ${
+              solid ? 'rounded-sm bg-ink px-2 py-1 text-ink' : 'text-bone'
+            }`}
             aria-label={`${studio.name} — home`}
           >
             <Logo variant="nav" />

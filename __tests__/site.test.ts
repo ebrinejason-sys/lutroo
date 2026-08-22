@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { describe, test } from 'node:test';
 import {
   contact,
@@ -142,10 +142,10 @@ describe('content completeness', () => {
     assert.doesNotMatch(hero, /<em /);
   });
 
-  test('the brand mark knocks the window out instead of filling it black', () => {
-    const mark = readFileSync(new URL('../components/BrandMark.tsx', import.meta.url), 'utf8');
-    assert.match(mark, /fillRule="evenodd"/);
-    assert.doesNotMatch(mark, /fill="#111"/);
+  test('the official lockup is the uploaded logo image', () => {
+    const logo = readFileSync(new URL('../components/Logo.tsx', import.meta.url), 'utf8');
+    assert.match(logo, /src="\/logo\.png"/);
+    assert.ok(existsSync(new URL('../public/logo.png', import.meta.url)));
   });
 
   test('type is one upright serif with no italic or script faces', () => {

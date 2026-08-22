@@ -63,7 +63,7 @@ export default function Intro() {
       }`}
     >
       <div className="animate-intro-mark px-6">
-        <Logo className="items-center text-center text-bone" />
+        <Logo variant="full" />
       </div>
     </div>
   );
